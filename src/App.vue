@@ -1,7 +1,9 @@
 <template>
     <div>
-        <button v-if="!showCadastro" v-on:click="toggleCadastro" class="w3-button w3-blue">Cadastrar Cursos</button>
+        <button v-if="!showCadastro" v-on:click="buscar" class="w3-button w3-blue">Buscar Cursos</button>
         <button v-if="showCadastro" v-on:click="toggleCadastro" class="w3-button w3-red">Cancelar Cadastro</button>
+        <button v-if="!showCadastro && cursos.length > 0" v-on:click="toggleCadastro"
+            class="w3-button w3-green">Cadastrar Cursos</button>
         <br><br><br>
         <div v-if="!showCadastro">
             <table class="w3-table w3-bordered w3-card" v-if="cursos != ''">
@@ -15,14 +17,17 @@
                 </tr>
                 <tr v-for="curso in cursos">
                     <td>{{ curso.cod }}</td>
-                    <button v-on:click="buscar_aluno(curso.cod)">
-                        <td>{{ curso.curso }}</td>
-                    </button>
+                    <td>
+                        <button v-on:click="buscar_aluno(curso.cod)">
+                            {{ curso.curso }}
+                        </button>
+                    </td>
                     <td>{{ curso.vagas }}</td>
                     <td>{{ curso.periodo }}</td>
                     <td>{{ curso.ano }}</td>
                     <td>{{ curso.semestre }}</td>
                 </tr>
+
             </table>
             <table class="w3-table w3-bordered w3-card" v-if="alunos.length > 0">
                 <tr>
@@ -41,7 +46,7 @@
         </div>
         <div v-if="showCadastro">
             <h3>Cadastrar Curso</h3>
-            <form @submit.prevent="cadastrarCurso">
+            <form @submit="cadastrarCurso">
                 <label for="curso">Curso:</label><br>
                 <input type="text" id="curso" v-model="novoCurso.curso"><br>
                 <label for="vagas">Vagas:</label><br>
@@ -96,7 +101,7 @@ export default {
                 if (response.ok) {
                     // Se o curso for cadastrado com sucesso, oculte a tela de cadastro
                     this.toggleCadastro();
-                    
+
                     // Em seguida, chame a função de busca para atualizar os resultados
                     await this.buscar();
                 } else {

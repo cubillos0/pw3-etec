@@ -1,4 +1,8 @@
 <?php
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header('Access-Control-Allow-Methods: POST');
 header("Content-Type: application/json");
 
 // definições de host (servidor onde está o banco), database (nome), usuário e senha 
@@ -7,7 +11,8 @@ $user = "root";
 $pass= ""; 
 $db = "teste";
 
-$con = new mysqli($host, $user, $pass, $db); 
+// Conectar ao banco de dados
+$conn = new mysqli($host, $user, $pass, $db); 
 
 // Verifique a conexão
 if ($conn->connect_error) {
@@ -19,7 +24,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 // Prepare a consulta SQL
 $stmt = $conn->prepare("INSERT INTO cursos (curso, vagas, periodo, ano, semestre) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("sisis", $data['curso'], $data['vagas'], $data['periodo'], $data['ano'], $data['semestre']);
+$stmt->bind_param("sisii", $data['curso'], $data['vagas'], $data['periodo'], $data['ano'], $data['semestre']);
 
 // Execute a consulta
 if ($stmt->execute()) {
