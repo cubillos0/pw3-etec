@@ -6,7 +6,7 @@ header('Access-Control-Allow-Methods: POST');
 header("Content-Type: application/json");
 
 // definições de host (servidor onde está o banco), database (nome), usuário e senha 
-$host = "127.0.0.1";  
+$host = "localhost";  
 $user = "root"; 
 $pass= ""; 
 $db = "teste";

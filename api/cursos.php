@@ -4,7 +4,7 @@
 	header('Access-Control-Allow-Methods: GET');
 	
 // definições de host (servidor onde está o banco), database (nome), usuário e senha 
-$host = "127.0.0.1";  
+$host = "localhost";  
 $user = "root"; 
 $pass= ""; 
 $db = "teste";
